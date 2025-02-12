@@ -11,7 +11,7 @@
 
     async function loadMermaidFile() {
       try {
-        const response = await fetch("yourfile.mmd"); // Replace with your hosted file URL
+        const response = await fetch("/Users/callumshepherd/untitled folder/Testing/yourfile.mmd"); // Replace with your hosted file URL
         const mmdText = await response.text();
         document.querySelector(".mermaid").innerHTML = mmdText;
         mermaid.init(undefined, document.querySelector(".mermaid"));
@@ -54,8 +54,7 @@
       <ul class="mt-2">
         <li><button class="w-full bg-blue-500 text-white p-2 rounded mt-2">Start a New Chat</button></li>
         <li><button class="w-full bg-blue-500 text-white p-2 rounded mt-2">Create a Support Ticket</button></li>
-        <li class="mt-2">Call: <strong>624624</strong></li>
-        <li class="mt-2">WhatsApp Support</li>
+        <li><button class="w-full bg-blue-500 text-white p-2 rounded mt-2">Call 624624</button></li>
       </ul>
     </div>
   </div>
