@@ -11,7 +11,7 @@
 
     async function loadMermaidFile() {
       try {
-        const response = await fetch("https://yourserver.com/path-to-your-file.mmd"); // Replace with your hosted file URL
+        const response = await fetch("yourfile.mmd"); // Replace with your hosted file URL
         const mmdText = await response.text();
         document.querySelector(".mermaid").innerHTML = mmdText;
         mermaid.init(undefined, document.querySelector(".mermaid"));
