@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Home WiFi Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="max-w-3xl mx-auto bg-white p-6 mt-10 shadow-lg rounded-lg">
+    <h2 class="text-2xl font-bold text-blue-600 border-b pb-2">Select Your Service</h2>
+    <select id="serviceSelect" onchange="checkService()" class="w-full p-2 border rounded mt-2">
+        <option value="">-- Select Your Service --</option>
+        <option value="FPMT000746">FPMT000746 - 71 Port E Chee</option>
+        <option value="FPMT000789">FPMT000789 - 5 The Paddocks</option>
+    </select>
+    <p id="errorMessage" class="text-red-600 mt-2 hidden">Unfortunately, you are not on our First Class Fibre. Please speak to a member of our fibre team to unlock our self-service portal.</p>
+
+    <div id="networkDetails" class="hidden mt-6">
+        <h2 class="text-2xl font-bold text-blue-600 border-b pb-2">Network Status</h2>
+        <div class="flex gap-4 mt-4">
+            <div class="flex-1 p-3 text-white text-center font-semibold rounded bg-red-500">Fibre ONT Status: Bad</div>
+            <div class="flex-1 p-3 text-white text-center font-semibold rounded bg-green-500">Router Status: Connected</div>
+            <div class="flex-1 p-3 text-white text-center font-semibold rounded bg-green-500">Mesh Network: Active</div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-blue-600 border-b pb-2 mt-6">Network Topology</h2>
+        <iframe src="https://www.mermaidchart.com/raw/3aa0bb9e-f459-4e95-a237-86869d024331?theme=light&version=v0.1&format=svg" class="w-full h-64 mt-4 border rounded"></iframe>
+
+        <h2 class="text-2xl font-bold text-blue-600 border-b pb-2 mt-6">Troubleshooting</h2>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+            <button class="bg-blue-500 text-white p-3 rounded hover:bg-blue-700">Reboot Router</button>
+            <button class="bg-blue-500 text-white p-3 rounded hover:bg-blue-700">Restart Wi-Fi Network</button>
+            <button class="bg-blue-500 text-white p-3 rounded hover:bg-blue-700">Change Wi-Fi Name</button>
+            <button class="bg-blue-500 text-white p-3 rounded hover:bg-blue-700">Change Wi-Fi Password</button>
+        </div>
+
+        <h2 class="text-2xl font-bold text-blue-600 border-b pb-2 mt-6">Your Current Connected Devices</h2>
+        <table class="w-full mt-4 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-blue-500 text-white">
+                    <th class="p-2 border border-gray-300">Device Name</th>
+                    <th class="p-2 border border-gray-300">Connection Type</th>
+                    <th class="p-2 border border-gray-300">Signal Strength</th>
+                </tr>
+            </thead>
+            <tbody id="devicesTableBody" class="bg-white"></tbody>
+        </table>
+
+        <div class="text-center mt-8">
+            <p>If you're still having issues, visit our <a href="#" class="text-blue-500 underline">Knowledge Base</a>.</p>
+            <div class="flex justify-center gap-4 mt-4">
+                <a href="#" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-700">Start a New Chat</a>
+                <a href="#" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-700">Create a Support Ticket</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function checkService() {
+        var service = document.getElementById("serviceSelect").value;
+        document.getElementById("errorMessage").classList.toggle("hidden", service !== "FPMT000789");
+        document.getElementById("networkDetails").classList.toggle("hidden", service !== "FPMT000746");
+    }
+
+    function getSignalStrengthClass(strength) {
+        return strength >= 100 ? 'text-green-500' : strength >= 70 ? 'text-yellow-500' : 'text-red-500';
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var devices = [
+            { name: "Ross-iPhone", type: "Wi-Fi", strength: 98 },
+            { name: "SonosZP", type: "Wi-Fi", strength: 184 },
+            { name: "SonosZP-3", type: "Wi-Fi", strength: 64 },
+            { name: "Carolines-MBP", type: "Wi-Fi", strength: 76 },
+            { name: "LGwebOSTV", type: "Ethernet", strength: null }
+        ];
+
+        var tableBody = document.getElementById("devicesTableBody");
+        devices.forEach(device => {
+            var row = document.createElement("tr");
+            row.innerHTML = `<td class="p-2 border border-gray-300">${device.name}</td>
+                <td class="p-2 border border-gray-300">${device.type}</td>
+                <td class="p-2 border border-gray-300">${device.strength !== null ? `<span class="${getSignalStrengthClass(device.strength)} font-bold">${device.strength}</span>` : ''}</td>`;
+            tableBody.appendChild(row);
+        });
+    });
+</script>
+
+</body>
+</html>
